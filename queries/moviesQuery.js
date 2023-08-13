@@ -13,7 +13,7 @@ const getAllMovies = async () => {
 
 const getMovie = async (id) => {
   try {
-    const oneMovie = await db.one("SELECT * FROM movies WHERE id=$1", id);
+    const oneMovie = await db.one("SELECT * FROM movies WHERE id=$1", [id]);
     return oneMovie;
   } catch (err) {
     return err;
@@ -22,7 +22,7 @@ const getMovie = async (id) => {
 
 const getMovieByTitle = async (title) => {
   try {
-    const oneMovie = await db.one("SELECT * FROM movies WHERE lower(title) LIKE $1", title);
+    const oneMovie = await db.one("SELECT * FROM movies WHERE lower(title) LIKE $1", [title]);
     return oneMovie;
   } catch (err) {
     return err;
@@ -57,7 +57,7 @@ const deleteMovie = async (id) => {
   try {
     const deletedMovie = await db.one(
       "DELETE FROM movies WHERE id = $1 RETURNING *",
-      id
+      [id]
     );
     return deletedMovie;
   } catch (err) {
