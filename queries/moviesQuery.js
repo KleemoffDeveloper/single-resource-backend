@@ -2,8 +2,13 @@ const db = require("../database/dbConfig.js");
 
 const getAllMovies = async () => {
   console.log("Running get all movies...")
-  const allMovies = await db.any("SELECT * FROM movies ORDER BY title ASC");
-  return allMovies;
+  try {
+    const allMovies = await db.any("SELECT * FROM movies");
+    return allMovies;
+  }
+   catch(error) {
+    return error;
+   }
 };
 
 const getMovie = async (id) => {
