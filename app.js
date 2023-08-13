@@ -1,5 +1,6 @@
 const cors = require('cors')
 const express = require('express')
+require('dotenv').config()
 
 const app = express()
 
@@ -11,7 +12,7 @@ app.get('/', (req, res) => {
   res.json({instructions: "Go to /api for json."})
 })
 
-const moviesController = require('./controllers/moviesController')
+const moviesController = require('./controllers/moviesController.js')
 app.use('/api', moviesController)
 
 // 404 PAGE

@@ -1,18 +1,23 @@
 const db = require('../database/dbConfig')
 
 const getAllMovies = async () => {
+    const allMovies = await db.any("SELECT * FROM movies")
+    return allMovies
+}
+
+const getMovie = async (id) => {
     try {
-        const allMovies = await db.any('SELECT * FROM movies')
-        return allMovies;
+        const oneMovie = await db.one('SELECT * FROM movies WHERE id=$1', id)
+        return oneMovie;
     }
     catch (error) {
         return error;
     }
 }
 
-const getMovie = async (id) => {
+const getMovieByTitle = async (title) => {
     try {
-        const oneMovie = await db.one('SELECT * FROM movies WHERE id=$1', id)
+        const oneMovie = await db.one("SELECT * FROM movies WHERE lower(title) LIKE $1", title)
         return oneMovie;
     }
     catch (error) {
