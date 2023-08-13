@@ -1,83 +1,70 @@
-const db = require('../database/dbConfig')
+const db = require("../database/dbConfig.js");
 
 const getAllMovies = async () => {
-    const allMovies = await db.any("SELECT * FROM movies")
-    return allMovies
-}
+  console.log("Running get all movies...")
+  const allMovies = await db.any("SELECT * FROM movies ORDER BY title ASC");
+  return allMovies;
+};
 
 const getMovie = async (id) => {
-    try {
-        const oneMovie = await db.one('SELECT * FROM movies WHERE id=$1', id)
-        return oneMovie;
-    }
-    catch (error) {
-        return error;
-    }
-}
+  try {
+    const oneMovie = await db.one("SELECT * FROM movies WHERE id=$1", id);
+    return oneMovie;
+  } catch (err) {
+    return err;
+  }
+};
 
 const getMovieByTitle = async (title) => {
-    try {
-        const oneMovie = await db.one("SELECT * FROM movies WHERE lower(title) LIKE $1", title)
-        return oneMovie;
-    }
-    catch (error) {
-        return error;
-    }
-}
+  try {
+    const oneMovie = await db.one("SELECT * FROM movies WHERE lower(title) LIKE $1", title);
+    return oneMovie;
+  } catch (err) {
+    return err;
+  }
+};
 
-const createMovie = async (movie) => {
-    try {
-        const newMovie = await db.one(
-            "INSERT INTO movies ('title, image_url, release_date, box_office, rating') VALUES ($1, $2, $3, $4, $5) RETURNING *",
-            [
-                movie.title,
-                movie.image_url,
-                movie.release_date,
-                movie.box_office,
-                movie.rating,
-            ]
-        )
-        return newMovie;
-    }
-    catch (error) {
-        return error;
-    }
-}
-
-const deleteMovie = async(id) => {
-    try {
-        const deletedMovie = await db.one("DELETE FROM movies WHERE id = $1 RETURNING *", id)
-        return deletedMovie;
-    }
-    catch (error) {
-        return error;
-    }
-}
+const newMovie = async (movie) => {
+  try {
+    const _newMovie = await db.one(
+      "INSERT INTO movies (title, image_url, release_date, box_office, rating) VALUES($1, $2, $3, $4, $5) RETURNING *",
+      [movie.title, movie.image_url, movie.release_date, movie.box_office, movie.rating]
+    );
+    return _newMovie;
+  } catch (err) {
+    return err;
+  }
+};
 
 const updateMovie = async (id, movie) => {
-    try {
-        const updatedMovie = await db.one(
-            "UPDATE movies SET title=$2, image_url=$3, release_date=$4, box_office=$5, rating=$6 WHERE id = $1 RETURNING *",
-            [
-                id,
-                movie.title,
-                movie.image_url,
-                movie.release_date,
-                movie.box_office,
-                movie.rating,
-            ]
-        )
-        return updatedMovie;
-    }
-    catch (error) {
-        return error;
-    }
-}
+  try {
+    const updatedMovie = await db.one(
+      "UPDATE movies SET title=$1, image_url=$2, release_date=$3, box_office=$4, rating=$5 WHERE id=$6 RETURNING *",
+      [movie.title, movie.image_url, movie.release_date, movie.box_office, movie.rating, id]
+    );
+    return updatedMovie;
+  } catch (err) {
+    return err;
+  }
+};
+
+const deleteMovie = async (id) => {
+  try {
+    const deletedMovie = await db.one(
+      "DELETE FROM movies WHERE id = $1 RETURNING *",
+      id
+    );
+    return deletedMovie;
+  } catch (err) {
+    return err;
+  }
+};
 
 module.exports = {
-    getAllMovies,
-    getMovie,
-    createMovie,
-    deleteMovie,
-    updateMovie
-}
+  getAllMovies,
+  getMovie,
+  updateMovie,
+  deleteMovie,
+  getMovieByTitle,
+  newMovie
+};

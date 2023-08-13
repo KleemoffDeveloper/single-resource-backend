@@ -1,23 +1,27 @@
-const cors = require('cors')
-const express = require('express')
-require('dotenv').config()
+// DEPENDENCIES
+const cors = require("cors");
+const express = require("express");
+require('dotenv').config();
 
-const app = express()
+// CONFIGURATION
+const app = express();
 
-app.use(cors())
-app.use(express.json())
+// MIDDLEWARE
+app.use(cors());
+app.use(express.json());
 
 // ROUTES
-app.get('/', (req, res) => {
-  res.json({instructions: "Go to /api for json."})
-})
+app.get("/", (req, res) => {
+  res.send("Welcome to <a href='/movies'>Pikaflx</a>");
+});
 
-const moviesController = require('./controllers/moviesController.js')
-app.use('/api', moviesController)
+const moviesController = require("./controllers/moviesController.js");
+app.use("/movies", moviesController);
 
 // 404 PAGE
 app.get("*", (req, res) => {
-    res.status(404).send({ error: "Page not found" });
-  });
+  res.status(404).send("Page not found.");
+});
 
-module.exports = app
+// EXPORT
+module.exports = app;
