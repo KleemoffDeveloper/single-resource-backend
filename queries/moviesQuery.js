@@ -7,6 +7,7 @@ const getAllMovies = async () => {
     return allMovies;
   }
    catch(error) {
+    console.log(error)
     return error;
    }
 };
@@ -16,6 +17,7 @@ const getMovie = async (id) => {
     const oneMovie = await db.one("SELECT * FROM movies WHERE id=$1", [id]);
     return oneMovie;
   } catch (err) {
+    console.log(err)
     return err;
   }
 };

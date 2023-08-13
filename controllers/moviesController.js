@@ -19,8 +19,18 @@ movies.get("/", async (req, res) => {
   }
 });
 
+movies.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  const movie = await getMovie(id);
+  if (movie) {
+    res.json(movie);
+  } else {
+    res.status(404).json({ error: "not found" });
+  }
+});
+
 // SHOW
-movies.get("/:title", async (req, res) => {
+movies.get("/title/:title", async (req, res) => {
   const { title } = req.params;
   const movie = await getMovieByTitle(title.toLowerCase());
   if (movie.title) {
