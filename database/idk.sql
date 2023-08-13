@@ -1,1 +1,0 @@
-on everything idk how to sql but we gonna watch a quick zoom recording and its gonna be alright
