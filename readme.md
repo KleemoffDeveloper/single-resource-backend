@@ -1,2 +1,1 @@
-make sure to run `npm install` in your termninal for them node modules ;)
-you also need a .env file with a PORT ok nice yup
+hi guys this is our backend app, my partner is <a href='https://github.com/waiLeongChong' target='_blank'>Wai Leong Chong</a>
